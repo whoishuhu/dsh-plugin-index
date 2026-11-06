@@ -1,0 +1,25 @@
+{
+  "name": "dsh-plugin-index",
+  "private": true,
+  "type": "module",
+  "description": "DSH plugin index built from every repository and npm package tagged dsh-plugin",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "collect": "node scripts/collect.mjs",
+    "generate": "node --experimental-transform-types --no-warnings vendor/generator/src/bin.ts --input build/sources.txt --output site/raw.json --cache .plugin-market-cache --concurrency 16 --title \"DSH Plugin Index\"",
+    "finalize": "node scripts/finalize.mjs site/raw.json site/index.json"
+  },
+  "dependencies": {
+    "@deepseek-ai/dsh-package-manifest": "0.2.2-rc.1",
+    "@deepseek-ai/dsh-plugin-market-index": "0.2.2-rc.1",
+    "commander": "^15.0.0",
+    "hosted-git-info": "^9.0.3",
+    "resolve.exports": "^2.0.3",
+    "semver": "^7.8.5",
+    "tar": "^7.5.22",
+    "yaml": "^2.9.0"
+  }
+}

@@ -1,0 +1,87 @@
+name: Build index
+
+on:
+  schedule:
+    - cron: '0 18 * * *' # 02:00 Asia/Shanghai
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: build-index
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      # The generator caches every package and commit it has read, so later runs only fetch what changed.
+      - name: Restore generator cache
+        uses: actions/cache/restore@v4
+        with:
+          path: .plugin-market-cache
+          key: generator-${{ github.run_id }}
+          restore-keys: generator-
+
+      - name: Collect sources tagged dsh-plugin
+        run: npm run collect
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Exit status 1 only means some sources could not be read; their last good result is kept.
+      # The step is capped so a slow first run still saves its cache and the next run continues from it.
+      - name: Generate index with the official generator
+        id: generate
+        timeout-minutes: 300
+        continue-on-error: true
+        run: |
+          set +e
+          npm run generate 2> build/warnings.log
+          status=$?
+          tail -n 50 build/warnings.log
+          echo "warnings: $(wc -l < build/warnings.log)"
+          if [ "$status" -ge 2 ]; then exit "$status"; fi
+          test -f site/raw.json
+
+      - name: Save generator cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .plugin-market-cache
+          key: generator-${{ github.run_id }}
+
+      - name: Finalize index
+        if: steps.generate.outcome == 'success'
+        run: |
+          npm run finalize
+          cp README.md site/
+          cp build/sources.txt build/warnings.log site/
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.generate.outcome == 'success'
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}index.json
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
