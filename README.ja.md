@@ -1,6 +1,6 @@
-# DSH プラグインインデックス（dsh-plugin タグ）
+﻿# DSH プラグインインデックス（dsh-plugin タグ）
 
-[English](README.md) | [简体中文](README.zh.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+[简体中文](README.md) | [English](README.en.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 DeepSeek Harness 用のプラグインインデックスです。**`dsh-plugin` タグが付いた、インストール可能なすべての DSH プラグイン**を掲載します。
 

@@ -1,0 +1,59 @@
+name: Publish page
+
+# Publishes the landing page and READMEs without rebuilding the index. A Pages deployment replaces the
+# whole site, so this job carries the currently published index.json and its files over unchanged.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+      - 'README*.md'
+  # Runs that started before the landing page existed deploy without it; re-add it after every index build.
+  workflow_run:
+    workflows: ['Build index']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish-page
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble site
+        run: |
+          mkdir -p site
+          cp README*.md web/index.html site/
+          base=https://whoishuhu.github.io/dsh-plugin-index
+          for f in index.json sources.txt warnings.log; do
+            curl -fsSL "$base/$f" -o "site/$f" || rm -f "site/$f"
+          done
+          # Icons the published index points at.
+          if [ -f site/index.json ]; then
+            node -e "const j=require('./site/index.json');for(const p of j.plugins)if(p.icon&&p.icon.startsWith('icons/'))console.log(p.icon)" | sort -u | while read -r icon; do
+              mkdir -p "site/$(dirname "$icon")"
+              curl -fsSL "$base/$icon" -o "site/$icon" || true
+            done
+          fi
+          ls -la site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,6 +1,6 @@
-# DSH 外掛索引（dsh-plugin 標籤）
+﻿# DSH 外掛索引（dsh-plugin 標籤）
 
-[English](README.md) | [简体中文](README.zh.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+[简体中文](README.md) | [English](README.en.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 DeepSeek Harness 的外掛索引，收錄**所有標註了 `dsh-plugin` 標籤、且可以安裝的 DSH 外掛**：
 

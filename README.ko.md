@@ -1,6 +1,6 @@
-# DSH 플러그인 인덱스 (dsh-plugin 태그)
+﻿# DSH 플러그인 인덱스 (dsh-plugin 태그)
 
-[English](README.md) | [简体中文](README.zh.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+[简体中文](README.md) | [English](README.en.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
 
 DeepSeek Harness용 플러그인 인덱스입니다. **`dsh-plugin` 태그가 붙은, 설치 가능한 모든 DSH 플러그인**을 수록합니다.
 
