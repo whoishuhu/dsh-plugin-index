@@ -50,18 +50,29 @@ plugins.sort((a, b) =>
   (b.metadata.sortKeys['github-stars'] ?? -1) - (a.metadata.sortKeys['github-stars'] ?? -1)
   || (b.metadata.sortKeys['npm-downloads'] ?? -1) - (a.metadata.sortKeys['npm-downloads'] ?? -1))
 
+const date = stats.generatedAt.slice(0, 10)
+const n = plugins.length
 const index = {
   format: 1,
-  title: { en: 'DSH Plugin Index (dsh-plugin tag)', zh: 'DSH 插件索引（dsh-plugin 标签）' },
+  title: {
+    en: 'DSH Plugin Index (dsh-plugin tag)',
+    zh: 'DSH 插件索引（dsh-plugin 标签）',
+    'zh-tw': 'DSH 外掛索引（dsh-plugin 標籤）',
+    ja: 'DSH プラグインインデックス（dsh-plugin タグ）',
+    ko: 'DSH 플러그인 인덱스 (dsh-plugin 태그)',
+  },
   description: {
-    en: `Every installable DSH bundle tagged dsh-plugin on GitHub or npm, generated daily with the official generator. ${plugins.length} plugins, updated ${stats.generatedAt.slice(0, 10)}. Listing is not endorsement.`,
-    zh: `GitHub 或 npm 上打了 dsh-plugin 标签、且可安装的全部 DSH 插件，每天用官方生成器生成。共 ${plugins.length} 个，更新于 ${stats.generatedAt.slice(0, 10)}。收录不代表审核或推荐。`,
+    en: `Every installable DSH bundle tagged dsh-plugin on GitHub or npm, generated daily with the official generator. ${n} plugins, updated ${date}. Listing is not review.`,
+    zh: `GitHub 或 npm 上打了 dsh-plugin 标签、且可安装的全部 DSH 插件，每天用官方生成器生成。共 ${n} 个，更新于 ${date}。收录不代表审核。`,
+    'zh-tw': `GitHub 或 npm 上標註了 dsh-plugin 標籤、且可安裝的全部 DSH 外掛，每天以官方產生器產生。共 ${n} 個，更新於 ${date}。收錄不代表審查。`,
+    ja: `GitHub または npm で dsh-plugin タグが付いた、インストール可能なすべての DSH プラグイン。公式ジェネレーターで毎日生成。${n} 件、${date} 更新。掲載は審査ではありません。`,
+    ko: `GitHub 또는 npm에서 dsh-plugin 태그가 붙은 설치 가능한 모든 DSH 플러그인. 공식 생성기로 매일 생성. ${n}개, ${date} 업데이트. 수록은 검토가 아닙니다.`,
   },
   metadata: {
     sortKeys: {
-      'github-stars': { title: { en: '★ GitHub stars', zh: '★ GitHub 星数' }, order: 'desc' },
-      'npm-downloads': { title: { en: '↓ npm downloads (30 days)', zh: '↓ npm 下载量（30 天）' }, order: 'desc' },
-      updated: { title: { en: '◷ Recently updated', zh: '◷ 最近更新' }, order: 'desc' },
+      'github-stars': { title: { en: '★ GitHub stars', zh: '★ GitHub 星数', 'zh-tw': '★ GitHub 星數', ja: '★ GitHub スター', ko: '★ GitHub 스타' }, order: 'desc' },
+      'npm-downloads': { title: { en: '↓ npm downloads (30 days)', zh: '↓ npm 下载量（30 天）', 'zh-tw': '↓ npm 下載量（30 天）', ja: '↓ npm ダウンロード（30 日）', ko: '↓ npm 다운로드 (30일)' }, order: 'desc' },
+      updated: { title: { en: '◷ Recently updated', zh: '◷ 最近更新', 'zh-tw': '◷ 最近更新', ja: '◷ 最近の更新', ko: '◷ 최근 업데이트' }, order: 'desc' },
     },
   },
   plugins,

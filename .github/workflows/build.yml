@@ -67,7 +67,7 @@ jobs:
         if: steps.generate.outcome == 'success'
         run: |
           npm run finalize
-          cp README.md site/
+          cp README*.md web/index.html site/
           cp build/sources.txt build/warnings.log site/
 
       - uses: actions/upload-pages-artifact@v3

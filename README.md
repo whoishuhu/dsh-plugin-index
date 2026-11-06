@@ -1,5 +1,7 @@
 # DSH Plugin Index (dsh-plugin tag)
 
+[English](README.md) | [简体中文](README.zh.md) | [繁體中文](README.zh-TW.md) | [日本語](README.ja.md) | [한국어](README.ko.md)
+
 A plugin index for DeepSeek Harness that lists **every installable DSH bundle tagged `dsh-plugin`**:
 
 - GitHub repositories with the [`dsh-plugin` topic](https://github.com/topics/dsh-plugin), the tag the [official README](https://github.com/deepseek-ai/deepseek-harness#community-and-support) asks plugin authors to use;
@@ -25,6 +27,10 @@ A GitHub Actions job runs every day at 02:00 (UTC+8):
 
 The published site also carries `sources.txt` (what was read) and `warnings.log` (what was skipped and why).
 
+## Get your plugin listed
+
+There is nothing to submit. Add the `dsh-plugin` topic to your GitHub repository, or the `dsh-plugin` keyword to your npm package, and declare `dsh.bundle` in `package.json`. The next daily build picks it up.
+
 ## Limits
 
 - **Listing is not review.** Anyone can add the `dsh-plugin` tag. Every title, description and install source comes from the plugin itself. Check the source in the install dialog before you install.
@@ -33,4 +39,4 @@ The published site also carries `sources.txt` (what was read) and `warnings.log`
 
 ## License
 
-MIT. `vendor/generator` is from [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT).
+MIT. `vendor/generator` is from [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (MIT). Independent community project, not affiliated with DeepSeek.

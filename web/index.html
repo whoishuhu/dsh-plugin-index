@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DSH Plugin Index · DSH 插件索引</title>
+<meta name="description" content="A DeepSeek Harness plugin index listing every installable bundle tagged dsh-plugin. DeepSeek Harness 插件索引源。">
+<style>
+  :root { color-scheme: light dark; --fg:#1f2328; --mute:#656d76; --bg:#fff; --card:#f6f8fa; --line:#d0d7de; --accent:#4d6bfe; }
+  @media (prefers-color-scheme: dark) { :root { --fg:#e6edf3; --mute:#9198a1; --bg:#0d1117; --card:#161b22; --line:#30363d; } }
+  body { margin:0; font:16px/1.6 system-ui,-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; color:var(--fg); background:var(--bg); }
+  main { max-width:760px; margin:0 auto; padding:48px 20px; }
+  h1 { font-size:28px; margin:0 0 8px; }
+  nav { margin:0 0 28px; display:flex; flex-wrap:wrap; gap:8px; }
+  nav button { border:1px solid var(--line); background:var(--card); color:var(--fg); border-radius:999px; padding:4px 12px; cursor:pointer; font:inherit; font-size:14px; }
+  nav button[aria-pressed=true] { border-color:var(--accent); color:var(--accent); }
+  .url { display:flex; gap:8px; margin:12px 0 8px; }
+  .url code { flex:1; padding:10px 12px; background:var(--card); border:1px solid var(--line); border-radius:8px; overflow-x:auto; white-space:nowrap; font-size:14px; }
+  .url button { border:0; background:var(--accent); color:#fff; border-radius:8px; padding:0 16px; cursor:pointer; font:inherit; }
+  .mute { color:var(--mute); font-size:14px; }
+  ol li { margin:4px 0; }
+  .warn { border-left:3px solid #d29922; padding:8px 12px; background:var(--card); border-radius:4px; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1 data-t="title"></h1>
+  <nav id="langs"></nav>
+  <p data-t="intro"></p>
+  <h2 data-t="useH"></h2>
+  <ol>
+    <li data-t="step1"></li>
+    <li data-t="step2"></li>
+  </ol>
+  <div class="url"><code id="u">https://whoishuhu.github.io/dsh-plugin-index/index.json</code><button id="copy" data-t="copy"></button></div>
+  <p class="mute" id="stats"></p>
+  <h2 data-t="listH"></h2>
+  <p data-t="list"></p>
+  <p class="warn" data-t="warn"></p>
+  <p class="mute"><a href="https://github.com/whoishuhu/dsh-plugin-index">GitHub</a> · <a href="sources.txt">sources.txt</a> · <a href="warnings.log">warnings.log</a></p>
+</main>
+<script>
+const T = {
+  zh: { name:'简体中文', title:'DSH 插件索引', intro:'DeepSeek Harness 的插件索引源，收录 GitHub 和 npm 上所有打了 dsh-plugin 标签、且可以安装的插件，每天自动更新。', useH:'使用方法', step1:'在 DSH 中打开「插件 → 发现 → 添加索引源」。如果没有「发现」，先在「插件 → 实验性插件」中打开「自定义插件索引」。', step2:'粘贴下面的地址，点「添加」。', copy:'复制', copied:'已复制', listH:'收录你的插件', list:'无需申请：给 GitHub 仓库加 dsh-plugin 主题，或给 npm 包加 dsh-plugin 关键词，并在 package.json 中声明 dsh.bundle，第二天就会出现。', warn:'收录不等于审核。插件安装后以你的权限运行，安装前请核对来源。', stats:(n,d)=>`当前收录 ${n} 个插件，更新于 ${d}。` },
+  'zh-TW': { name:'繁體中文', title:'DSH 外掛索引', intro:'DeepSeek Harness 的外掛索引來源，收錄 GitHub 和 npm 上所有標註了 dsh-plugin 標籤、且可以安裝的外掛，每天自動更新。', useH:'使用方式', step1:'在 DSH 中開啟「插件 → 发现 → 添加索引源」（DSH 介面為簡體中文）。如果沒有「发现」，請先在「插件 → 实验性插件」中開啟「自定义插件索引」。', step2:'貼上下方網址，按「添加」。', copy:'複製', copied:'已複製', listH:'收錄你的外掛', list:'不需申請：為 GitHub 儲存庫加上 dsh-plugin 主題，或為 npm 套件加上 dsh-plugin 關鍵字，並在 package.json 中宣告 dsh.bundle，隔天就會出現。', warn:'收錄不等於審查。外掛安裝後以你的權限執行，安裝前請核對來源。', stats:(n,d)=>`目前收錄 ${n} 個外掛，更新於 ${d}。` },
+  en: { name:'English', title:'DSH Plugin Index', intro:'A plugin index for DeepSeek Harness. It lists every installable plugin tagged dsh-plugin on GitHub or npm and updates every day.', useH:'Use it', step1:'In DSH, open Plugins → Discover → Add index source. If Discover is missing, turn on Custom plugin index under Plugins → Experimental plugins first.', step2:'Paste the address below and click Add.', copy:'Copy', copied:'Copied', listH:'Get your plugin listed', list:'Nothing to submit: add the dsh-plugin topic to your GitHub repository or the dsh-plugin keyword to your npm package, declare dsh.bundle in package.json, and it shows up the next day.', warn:'Listing is not review. Plugins run with your permissions once installed; check the source before you install.', stats:(n,d)=>`${n} plugins, updated ${d}.` },
+  ja: { name:'日本語', title:'DSH プラグインインデックス', intro:'DeepSeek Harness 用のプラグインインデックスです。GitHub と npm で dsh-plugin タグが付いた、インストール可能なすべてのプラグインを掲載し、毎日更新します。', useH:'使い方', step1:'DSH で Plugins → Discover → Add index source を開きます。Discover がない場合は、先に Plugins → Experimental plugins で Custom plugin index をオンにします。', step2:'下の URL を貼り付けて Add をクリックします。', copy:'コピー', copied:'コピーしました', listH:'プラグインを掲載するには', list:'申請は不要です。GitHub リポジトリに dsh-plugin トピック、または npm パッケージに dsh-plugin キーワードを付け、package.json で dsh.bundle を宣言すると、翌日に掲載されます。', warn:'掲載は審査ではありません。プラグインはインストール後あなたの権限で動作します。インストール前に提供元を確認してください。', stats:(n,d)=>`${n} 件掲載、${d} 更新。` },
+  ko: { name:'한국어', title:'DSH 플러그인 인덱스', intro:'DeepSeek Harness용 플러그인 인덱스입니다. GitHub와 npm에서 dsh-plugin 태그가 붙은 설치 가능한 모든 플러그인을 수록하며 매일 업데이트됩니다.', useH:'사용 방법', step1:'DSH에서 Plugins → Discover → Add index source를 엽니다. Discover가 없으면 먼저 Plugins → Experimental plugins에서 Custom plugin index를 켭니다.', step2:'아래 주소를 붙여 넣고 Add를 누릅니다.', copy:'복사', copied:'복사됨', listH:'내 플러그인 수록하기', list:'신청할 필요가 없습니다. GitHub 저장소에 dsh-plugin 토픽을, 또는 npm 패키지에 dsh-plugin 키워드를 붙이고 package.json에 dsh.bundle을 선언하면 다음 날 수록됩니다.', warn:'수록은 검토가 아닙니다. 플러그인은 설치 후 사용자 권한으로 실행됩니다. 설치 전에 출처를 확인하세요.', stats:(n,d)=>`${n}개 수록, ${d} 업데이트.` },
+};
+let stats;
+function pick() {
+  const saved = localStorage.getItem('lang'); if (saved && T[saved]) return saved;
+  for (const l of navigator.languages || [navigator.language]) {
+    const s = l.toLowerCase();
+    if (/^zh-(tw|hk|mo|hant)/.test(s)) return 'zh-TW';
+    if (s.startsWith('zh')) return 'zh';
+    for (const k of ['en','ja','ko']) if (s.startsWith(k)) return k;
+  }
+  return 'en';
+}
+function render(lang) {
+  const t = T[lang]; document.documentElement.lang = lang === 'zh' ? 'zh-CN' : lang;
+  document.querySelectorAll('[data-t]').forEach(el => { el.textContent = t[el.dataset.t]; });
+  document.querySelectorAll('#langs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === lang));
+  document.getElementById('stats').textContent = stats ? t.stats(stats.n, stats.d) : '';
+  localStorage.setItem('lang', lang); window.cur = lang;
+}
+const nav = document.getElementById('langs');
+for (const [k, v] of Object.entries(T)) { const b = document.createElement('button'); b.textContent = v.name; b.dataset.l = k; b.onclick = () => render(k); nav.append(b); }
+document.getElementById('copy').onclick = async (e) => {
+  await navigator.clipboard.writeText(document.getElementById('u').textContent);
+  e.target.textContent = T[window.cur].copied; setTimeout(() => { e.target.textContent = T[window.cur].copy; }, 1500);
+};
+render(pick());
+fetch('index.json').then(r => r.json()).then(j => {
+  const m = (j.description?.en || '').match(/updated (\d{4}-\d{2}-\d{2})/);
+  stats = { n: j.plugins.length, d: m ? m[1] : '' }; render(window.cur);
+}).catch(() => {});
+</script>
+</body>
+</html>
